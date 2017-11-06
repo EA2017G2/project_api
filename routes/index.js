@@ -10,6 +10,7 @@ const api = express.Router()
 //api.get('/product', productCtrl.getProducts)
 api.post('/signup', userCtrl.signUp)
 api.post('/signin', userCtrl.signIn)
+api.get('/getUsers', userCtrl.getUsers)
 api.get('/private', auth, (req, res) => {
  res.status(200).send({ message: 'tienes acceso'})
 })
