@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt-nodejs') //libreria para encriptarcontraseñ
 const UserSchema = new Schema({
     id: Number,
     email: {type: String, unique:true, lowercase:true, required: true },
-    username: { type: String, required: true },
+    name: { type: String, required: true },
     password:{ type: String, select: false },
     sex: String,
     orientation: String,
@@ -18,7 +18,7 @@ const UserSchema = new Schema({
     connected: {type: Number, default: 0 },
     birthday: { type: Date },
     contacts: {type: Number },
-    images: { type: String },
+    imageProfile: { type: String },
     signupDate: { type: Date, default: Date.now() },
     lastLogin: Date
 })
