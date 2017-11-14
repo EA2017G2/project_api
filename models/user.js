@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     city: String,
     locationCurrent: Number,
     connected: {type: Number, default: 0 },
-    birthday: { type: Date },
+    birthday: { type: String }, //hay que cambiarlo luego y poner date en formato / /
     contacts: {type: Number },
     imageProfile: { type: String },
     signupDate: { type: Date, default: Date.now() },

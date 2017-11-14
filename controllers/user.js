@@ -15,6 +15,7 @@ const user = new User({
     orientation: req.body.orientation,
     imageProfile: req.body.imageProfile
 })
+    console.log(user);
 user.save((err) => {
     if(err) res.status(500).send({message: `Error al crear el usuario: ${err}`})
 //service =>función
