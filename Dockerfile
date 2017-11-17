@@ -1,6 +1,6 @@
 FROM node:alpine
 
-RUN mkdir /crud
-WORKDIR /crud
+RUN mkdir /projectapi
+WORKDIR /projectapi
 
-EXPOSE 3000
+EXPOSE 3001
