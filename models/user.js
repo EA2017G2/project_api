@@ -1,36 +1,35 @@
 'use strict';
 
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt-nodejs'); //libreria para encriptarcontraseñ
+var bcrypt = require('bcrypt-nodejs'); //libreria para encriptarcontraseñ
 
-const UserSchema = new Schema({
-    email: {type: String, unique: true, lowercase: true, required: true},
-    name: {type: String, required: true},
-    password: {type: String, required: true},
-    salt: {type: String},
+var UserSchema = new mongoose.Schema({
+    email: { type: String, unique: true, lowercase: true, required: true },
+    name: { type: String, required: true },
+    password: { type: String, required: true },
+    salt: { type: String },
     sex: String,
     orientation: String,
     city: String,
     locationCurrent: Number,
-    connected: {type: Number, default: 0},
-    birthday: {type: Date},
-    contacts: {type: Number},
-    imageProfile: {type: String},
-    signupDate: {type: Date, default: Date.now()},
+    connected: { type: Number, default: 0 },
+    birthday: { type: Date },
+    contacts: { type: Number },
+    imageProfile: { type: String },
+    signupDate: { type: Date, default: Date.now() },
     lastLogin: Date
 });
 
 UserSchema.pre('save', function (next) {
-    let user = this;
+    var user = this;
 
-    bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.genSalt(10, function (err, salt) {
         user.salt = salt;
         if (err) {
             return next(err);
         } else {
-            bcrypt.hash(user.password, salt, null, (err, hash) => {
+            bcrypt.hash(user.password, salt, null, function (err, hash) {
                 if (err) {
                     return next(err);
                 } else {
@@ -40,6 +39,7 @@ UserSchema.pre('save', function (next) {
                 }
             });
         }
-    })
+    });
 });
+
 module.exports = mongoose.model('User', UserSchema);
