@@ -1,13 +1,13 @@
 'use strict';
 
-const jwt = require('jwt-simple');
-const moment = require('moment');
-const config = require('../config');
+var jwt = require('jwt-simple');
+var moment = require('moment');
+var config = require('../config');
 //const mongoose = require('mongoose')
 //mongoose.Promise = require('bluebird')
 
 function createToken(user) {
-    const payload = {
+    var payload = {
         sub: user._id,
         iat: moment().unix(),
         exp: moment().add(1, 'days').unix()
@@ -20,27 +20,25 @@ function createToken(user) {
 //iat=>fechaCreacion Token
 //exp=>cuando expira
 function decodeToken(token) {
-    return new Promise((resolve, reject) => {
+    return new Promise(function (resolve, reject) {
         try {
-            const payload = jwt.decode(token, config.SECRET_TOKEN);
+            var payload = jwt.decode(token, config.SECRET_TOKEN);
 
             if (payload.exp <= moment().unix()) {
                 reject({
                     status: 401,
                     message: 'El token ha expirado'
-                })
+                });
             }
-            resolve(payload.sub)
+            resolve(payload.sub);
         } catch (err) {
             reject({
                 status: 500,
                 message: 'Token invalido'
-            })
+            });
         }
     });
 }
 
-module.exports = {
-    createToken,
-    decodeToken
-};
+module.exports.createToken = createToken;
+module.exports.decodeToken = decodeToken;
