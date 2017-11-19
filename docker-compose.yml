@@ -13,6 +13,6 @@ services:
   volumes:
    - .:/projectapi
   ports:
-   - "3001:3001"
+   - "3000:3000"
   links:
    - mongo

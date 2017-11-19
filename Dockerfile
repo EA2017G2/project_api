@@ -3,4 +3,4 @@ FROM node:alpine
 RUN mkdir /projectapi
 WORKDIR /projectapi
 
-EXPOSE 3001
+EXPOSE 3000
