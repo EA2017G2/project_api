@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+- '8'
+services:
+- mongodb
+addons:
+  ssh_known_hosts: 147.83.7.157
+before_script:
+- echo -e "Host 147.83.7.157ntStrictHostKeyChecking non" >> ~/.ssh/config
+- chmod u+x scripts/deploy_wip.sh
+- chmod u+x scripts/deploy.sh
+deploy:
+- provider: script
+  skip_cleanup: true
+  script: $TRAVIS_BUILD_DIR/scripts/deploy_wip.sh $TRAVIS_BRANCH
+  on:
+    all_branches: true
+- provider: script
+  skip_cleanup: true
+  script: $TRAVIS_BUILD_DIR/scripts/deploy.sh
+  on:
+    branch: master
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_8a22c0e32c5b_key -iv $encrypted_8a22c0e32c5b_iv
+  -in ea0.enc -out /tmp/ea0 -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/ea0
+- ssh-add /tmp/ea0

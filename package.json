@@ -2,24 +2,52 @@
   "name": "api_projecte",
   "version": "1.0.0",
   "description": "Projecte de API Restful",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js",
+    "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EA2017G2/project_api.git"
   },
   "author": "grupo2",
   "license": "MIT",
+  "bugs": {
+    "url": "github.com/EA2017G2/project_api/issues"
+  },
+  "homepage": "https://github.com/EA2017G2/project_api#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.18.2",
-    "cors": "^2.8.4",
-    "express": "^4.16.2",
-    "jwt-simple": "^0.5.1",
-    "moment": "^2.19.1",
-    "mongoose": "^4.12.3",
-    "mongoose-auto-increment": "^5.0.1"
+    "body-parser": "1.18.2",
+    "cors": "2.8.4",
+    "express": "4.16.2",
+    "jwt-simple": "0.5.1",
+    "moment": "2.19.1",
+    "mongoose": "4.12.3",
+    "mongoose-auto-increment": "5.0.1",
+    "compression": "1.7.1",
+    "dotenv": "4.0.0",
+    "express-timestamp": "0.1.4",
+    "express-winston": "2.4.0",
+    "method-override": "2.3.10",
+    "winston": "2.4.0"
   },
   "devDependencies": {
-    "nodemon": "^1.12.1"
+    "chai": "4.1.2",
+    "chai-http": "3.0.0",
+    "grunt": "1.0.1",
+    "grunt-cli": "1.2.0",
+    "grunt-contrib-clean": "1.1.0",
+    "grunt-contrib-copy": "1.0.0",
+    "grunt-contrib-cssmin": "2.2.1",
+    "grunt-contrib-htmlmin": "2.4.0",
+    "grunt-contrib-jshint": "1.1.0",
+    "grunt-contrib-nodeunit": "1.0.0",
+    "grunt-contrib-uglify": "3.1.0",
+    "grunt-exec": "3.0.0",
+    "grunt-mocha-test": "0.13.3",
+    "mocha": "4.0.1",
+    "nodemon": "1.12.1"
   }
 }

@@ -1,18 +1,18 @@
 'use strict';
 
 const express = require('express');
+var router = express.Router();
 const productCtrl = require('../controllers/user');
-const auth = require('../middelwares/auth');
+const auth = require('../middlewares/auth');
 const userCtrl = require('../controllers/user');
-const api = express.Router();
 
 
 //api.get('/product', productCtrl.getProducts)
-api.post('/signup', userCtrl.signUp);
-api.post('/signin', userCtrl.signIn);
-api.get('/getUsers', userCtrl.getUsers);
-api.get('/private', auth, (req, res) => {
-    res.status(200).send({message: 'tienes acceso'})
+router.post('/signup', userCtrl.signUp);
+router.post('/signin', userCtrl.signIn);
+router.get('/getUsers', userCtrl.getUsers);
+router.get('/private', auth.isAuth, function (req, res) {
+    res.status(200).send({ message: 'tienes acceso' });
 });
 
-module.exports = api;
+module.exports.router = router;

@@ -1,6 +1,11 @@
 FROM node:alpine
 
-RUN mkdir /projectapi
-WORKDIR /projectapi
+RUN mkdir -p /usr/app
+WORKDIR /usr/app
 
-EXPOSE 3001
+COPY package.json .
+RUN npm install --quiet
+
+COPY . .
+
+EXPOSE 3000
