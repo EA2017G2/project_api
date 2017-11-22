@@ -1,7 +1,6 @@
 'use strict';
 
 var User = require('../models/user');
-var mongoose = require('mongoose');
 var service = require('../service');
 var bcrypt = require('bcrypt-nodejs'); //libreria para encriptarcontraseñ
 
@@ -21,12 +20,10 @@ function signUp(req, res) {
     user.save(function (err) {
         if (err) {
             return res.status(500).send({
-                message: 'Error al crear el usuario: ' + err,
-                message2: '1'
+                message: 'Error al crear el usuario: ' + err
             });
         } else {
             return res.status(200).send({
-                message2: 0,
                 token: service.createToken(user) });
         }
     });
@@ -44,7 +41,6 @@ function signIn(req, res) {
                         return res.status(404).send({ message: 'Contraseña incorrecta' });
                     } else {
                         res.status(200).send({
-                            message: 0,
                             hash: User.valueOf(user.password),
                             token: service.createToken(user)
                         });

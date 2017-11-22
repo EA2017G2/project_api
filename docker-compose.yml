@@ -11,7 +11,8 @@ services:
   build: .
   command: node app.js
   volumes:
-   - .:/projectapi
+   - .:/usr/app
+   - /usr/app/node_modules
   ports:
    - "3000:3000"
   links:
