@@ -9,9 +9,6 @@ before_script:
 - echo -e "Host 147.83.7.157ntStrictHostKeyChecking non" >> ~/.ssh/config
 - chmod u+x scripts/deploy_wip.sh
 - chmod u+x scripts/deploy.sh
-- npm install grunt-cli -g
-- cd angular-app && npm install && cd ..
-- npm install -g @angular/cli
 deploy:
 - provider: script
   skip_cleanup: true
