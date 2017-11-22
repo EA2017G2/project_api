@@ -3,7 +3,7 @@
 var User = require('../models/user');
 var service = require('../service');
 var bcrypt = require('bcrypt-nodejs'); //libreria para encriptarcontraseñ
-
+var email   = require('emailjs/email');
 
 //funcion de registro
 function signUp(req, res) {
@@ -62,7 +62,47 @@ function getUsers(req, res) {
         }
     });
 }
+function forgetPassword(req, res) {
+    User.findOne({ email: req.body.email }, function (err, user) {
+
+        if (err) return res.status(500).send({ message: err });else if (!user) return res.status(404).send({ message: 'No existe el usuario' });else {
+       //     bcrypt.hash(req.body.password, user.salt, null, function (err, hash) {
+      //          if (err) {
+         //           return res.status(503).send({ message: 'Internal Error' });
+       //         } else {
+                   sendmail(req.body.email,user.password);
+                        res.status(200).send({
+                            message: 'Consulte su correo electrónico.'
+           });
+        }
+    });
+}
+
+function sendmail(mail, password) {
+    console.log("HOLA");
+    var server  = email.server.connect({
+        user:    "loveshotrecovery@outlook.es",
+        password:"loveShot_",
+        host:    "smtp-mail.outlook.com",
+        tls: {ciphers: "SSLv3"}
+    });
+
+// send the message and get a callback with an error or details of the message that was sent
+    var message = {
+        text:    "Hello, your password is: " + password,
+        from:    "me <loveshotrecovery@outlook.es>",
+        to:      "xavi <" + mail + ">",
+        subject: "Welcome to my app",
+        attachment:
+            [
+                {data:"<html>Hello, your password is </html>" + password, alternative:true}
+            ]
+    };
+    server.send(message, function(err, message) { console.log(err || message); });
+
+}
 
 module.exports.signUp = signUp;
 module.exports.signIn = signIn;
 module.exports.getUsers = getUsers;
+module.exports.forgetPassword = forgetPassword;
