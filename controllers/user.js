@@ -17,6 +17,9 @@ function signUp(req, res) {
         orientation: req.body.orientation,
         imageProfile: req.body.imageProfile
     });
+
+    console.log("user: ", user);
+
     user.save(function (err) {
         if (err) {
             return res.status(500).send({

@@ -14,7 +14,7 @@ var UserSchema = new mongoose.Schema({
     city: String,
     locationCurrent: Number,
     connected: { type: Number, default: 0 },
-    birthday: { type: Date },
+    birthday: { type: Date , required: true},
     contacts: { type: Number },
     imageProfile: { type: String },
     signupDate: { type: Date, default: Date.now() },
