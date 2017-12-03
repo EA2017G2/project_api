@@ -53,6 +53,18 @@ function signIn(req, res) {
         }
     });
 }
+function getProfile(req, res){
+    User.find({}, function(err,user) {
+        if(err) return res.status(500).send({message: err});
+        else if (!user)
+        return res.status(404).send({message:`El usuario no existe`});
+        else{
+          req.user = user;
+          res.status(200).send(user);
+       
+        }
+    })
+}
 
 function getUsers(req, res) {
     User.find({}, function (err, products) {
@@ -65,6 +77,8 @@ function getUsers(req, res) {
         }
     });
 }
+
+
 function forgetPassword(req, res) {
     User.findOne({ email: req.body.email }, function (err, user) {
 
@@ -107,5 +121,6 @@ function sendmail(mail, password) {
 
 module.exports.signUp = signUp;
 module.exports.signIn = signIn;
+module.exports.getProfile = getProfile;
 module.exports.getUsers = getUsers;
 module.exports.forgetPassword = forgetPassword;
