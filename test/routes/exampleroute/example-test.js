@@ -16,8 +16,10 @@ describe('Example Route TEST', function() {
     });
 
     after(function() {
+        // runs after all tests in this block
         server.server.close();
         mongoose.connection.close();
+        process.exit(0);
     });
 
     beforeEach(function() {
@@ -29,11 +31,15 @@ describe('Example Route TEST', function() {
     });
 
     /*
-    * Test the /GET route
+    * Test GET /private bad access route
     */
-    describe('/GET root', function() {
-        it('it should GET all the examples', function(done) {
-            done();
+    describe('GET /private', function() {
+        it('it should GET bad auth with 403', function(done) {
+            chai.request(server.server).get('/api/private')
+                .end(function(err, res) {
+                    res.should.have.status(403);
+                    done();
+                });
         });
     });
 });

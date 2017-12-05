@@ -11,7 +11,9 @@ const userCtrl = require('../controllers/user');
 router.post('/users/signup', userCtrl.signUp);
 router.post('/users/signin', userCtrl.signIn);
 router.post('/users/forgetPassword', userCtrl.forgetPassword);
+
 router.get('/users', userCtrl.getUsers);
+router.get('/users/profile', auth.isAuth, userCtrl.getProfile);
 router.get('/private', auth.isAuth, function (req, res) {
     res.status(200).send({ message: 'tienes acceso' });
 });
