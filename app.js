@@ -10,6 +10,7 @@ var methodOverride = require('method-override');
 var compression = require('compression');
 var mongoose = require('mongoose');
 var cors = require('cors');
+const WebSocket = require('ws');
 
 
 var middlewareLoggerTimestamp = require('./middlewares/middlewareLoggerTimestamp');
@@ -63,6 +64,32 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error connecting to database:'));
 db.once('open', function() {
     logger.log('info', "Connected to the database...", 'app.js', 'root');
+});
+
+// Start websocket server
+var configPortWS = process.env.PORTWS;
+var portWS = (configPortWS !== undefined ? configPortWS : 8080);
+var wss = new WebSocket.Server({ port: portWS });
+
+// Broadcast to all.
+wss.broadcast = function broadcast(data) {
+    wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(data);
+        }
+    });
+};
+
+wss.on('connection', function connection(ws) {
+    logger.log('info', "WebSocket Server connection on: " + portWS, 'app.js', 'root');
+    ws.on('message', function incoming(data) {
+        // Broadcast to everyone else.
+        wss.clients.forEach(function each(client) {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(data);
+            }
+        });
+    });
 });
 
 module.exports.server = server;
