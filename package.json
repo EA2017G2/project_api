@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "mocha --recursive"
+    "test": "mocha --recursive --colors --reporter mocha-jenkins-reporter"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "compression": "1.7.1",
     "cors": "2.8.4",
     "dotenv": "4.0.0",
-    "emailjs": "^1.0.12",
+    "emailjs": "1.0.12",
     "express": "4.16.2",
     "express-timestamp": "0.1.4",
     "express-winston": "2.4.0",
@@ -50,6 +50,7 @@
     "grunt-exec": "3.0.0",
     "grunt-mocha-test": "0.13.3",
     "mocha": "4.0.1",
-    "nodemon": "1.12.1"
+    "nodemon": "1.12.1",
+    "mocha-jenkins-reporter": "0.3.10"
   }
 }
