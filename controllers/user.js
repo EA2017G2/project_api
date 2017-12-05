@@ -27,7 +27,8 @@ function signUp(req, res) {
             });
         } else {
             return res.status(200).send({
-                token: service.createToken(user) });
+                token: service.createToken(user)
+            });
         }
     });
 }
@@ -44,7 +45,7 @@ function signIn(req, res) {
                         return res.status(404).send({ message: 'Contraseña incorrecta' });
                     } else {
                         res.status(200).send({
-                            hash: User.valueOf(user.password),
+                            hash: User.valueOf(user.password), // TODO: Debe mandarse hash??
                             token: service.createToken(user)
                         });
                     }
@@ -53,15 +54,17 @@ function signIn(req, res) {
         }
     });
 }
+
 function getProfile(req, res){
-    User.find({}, function(err,user) {
-        if(err) return res.status(500).send({message: err});
+    var userId = req.user.sub;
+    User.find({ _id: userId }, function(err,user) {
+        if(err)
+            return res.status(500).send({message: err});
         else if (!user)
-        return res.status(404).send({message:`El usuario no existe`});
+            return res.status(404).send({message: 'El usuario no existe'});
         else{
           req.user = user;
           res.status(200).send(user);
-       
         }
     })
 }
@@ -78,15 +81,13 @@ function getUsers(req, res) {
     });
 }
 
-
 function forgetPassword(req, res) {
     User.findOne({ email: req.body.email }, function (err, user) {
-
         if (err) return res.status(500).send({ message: err });else if (!user) return res.status(404).send({ message: 'No existe el usuario' });else {
-       //     bcrypt.hash(req.body.password, user.salt, null, function (err, hash) {
-      //          if (err) {
-         //           return res.status(503).send({ message: 'Internal Error' });
-       //         } else {
+        //     bcrypt.hash(req.body.password, user.salt, null, function (err, hash) {
+        //          if (err) {
+        //           return res.status(503).send({ message: 'Internal Error' });
+        //         } else {
                    sendmail(req.body.email,user.password);
                         res.status(200).send({
                             message: 'Consulte su correo electrónico.'
@@ -104,7 +105,7 @@ function sendmail(mail, password) {
         tls: {ciphers: "SSLv3"}
     });
 
-// send the message and get a callback with an error or details of the message that was sent
+    // send the message and get a callback with an error or details of the message that was sent
     var message = {
         text:    "Hello, your password is: " + password,
         from:    "me <loveshotrecovery@outlook.es>",

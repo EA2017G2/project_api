@@ -12,7 +12,7 @@ function isAuth(req, res, next) {
             req.user = response;
             next();
         }).catch(function (response) {
-            res.status(response.status);
+            return res.status(response.status).send({ message: response.message });
         });
     }
 }

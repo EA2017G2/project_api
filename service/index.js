@@ -11,7 +11,9 @@ function createToken(user) {
     var payload = {
         sub: user._id,
         iat: moment().unix(),
-        exp: moment().add(1, 'days').unix()
+        exp: moment().add(1, 'days').unix(),
+        name: user.name,
+        email: user.email
         //notbefore..similar al iat
     };
 
@@ -35,7 +37,7 @@ function decodeToken(token) {
                     message: 'El token ha expirado'
                 });
             }
-            resolve(payload.sub);
+            resolve(payload);
         } catch (err) {
             reject({
                 status: 500,
