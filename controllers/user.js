@@ -3,7 +3,8 @@
 var User = require('../models/user');
 var service = require('../service');
 var bcrypt = require('bcrypt-nodejs'); //libreria para encriptarcontraseñ
-var email   = require('emailjs/email');
+var email = require('emailjs/email');
+var logger = require('../routes/utils/loggerfactory');
 
 //funcion de registro
 function signUp(req, res) {
@@ -18,7 +19,7 @@ function signUp(req, res) {
         imageProfile: req.body.imageProfile
     });
 
-    console.log("user: ", user);
+    logger.log("info", "user: " + user, "controller/user.js", "signUp");
 
     user.save(function (err) {
         if (err) {
@@ -97,7 +98,7 @@ function forgetPassword(req, res) {
 }
 
 function sendmail(mail, password) {
-    console.log("HOLA");
+    logger.log("info", "test send mail function", "controller/user.js", "sendmail");
     var server  = email.server.connect({
         user:    "loveshotrecovery@outlook.es",
         password:"loveShot_",
@@ -116,8 +117,13 @@ function sendmail(mail, password) {
                 {data:"<html>Hello, your password is </html>" + password, alternative:true}
             ]
     };
-    server.send(message, function(err, message) { console.log(err || message); });
-
+    server.send(message, function(err, message) {
+        if (err !== null) {
+            logger.log("error", err, "controller/user.js", "sendmail");
+        } else {
+            logger.log("info", message, "controller/user.js", "sendmail");
+        }
+    });
 }
 
 module.exports.signUp = signUp;
