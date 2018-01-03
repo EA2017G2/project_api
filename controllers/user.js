@@ -105,6 +105,21 @@ function forgetPassword(req, res) {
     });
 }
 
+function getByType(req, res) {
+    User.find({ sex: req.params.id}, function(err, user) {
+        if (err) return res.status(500).send({ message: err });else if (!user) return res.status(404).send({ message: 'No existe el usuario' });else {
+            //     bcrypt.hash(req.body.password, user.salt, null, function (err, hash) {
+            //          if (err) {
+            //           return res.status(503).send({ message: 'Internal Error' });
+            //         } else {
+            res.status(200).send({
+                message: user
+            });
+        }
+    });
+
+}
+
 function sendmail(mail, password) {
     logger.log("info", "test send mail function", "controller/user.js", "sendmail");
     var server  = email.server.connect({
@@ -139,5 +154,6 @@ function sendmail(mail, password) {
 module.exports.signUp = signUp;
 module.exports.signIn = signIn;
 module.exports.getProfile = getProfile;
+module.exports.getByType = getByType;
 module.exports.getUsers = getUsers;
 module.exports.forgetPassword = forgetPassword;
