@@ -1,6 +1,7 @@
 'use strict';
 
 var User = require('../models/user');
+var Contact = require('../models/contact');
 var service = require('../service');
 var bcrypt = require('bcrypt-nodejs'); //libreria para encriptarcontraseñ
 var email = require('emailjs/email');
@@ -31,6 +32,13 @@ function signUp(req, res) {
                 token: service.createToken(user)
             });
         }
+    });
+}
+function newMessage(req,res){
+    var contact = new Contact({
+        toUserId: req.body._id,
+        fromUserId: req.body._id,
+        comment: req.body.comment
     });
 }
 
@@ -125,6 +133,8 @@ function sendmail(mail, password) {
         }
     });
 }
+
+
 
 module.exports.signUp = signUp;
 module.exports.signIn = signIn;
