@@ -34,6 +34,7 @@ function signUp(req, res) {
         }
     });
 }
+// Crea mensajes
 function newMessage(req,res){
     var contact = new Contact({
         toUserId: req.body._id,
