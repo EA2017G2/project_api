@@ -9,3 +9,4 @@ RUN npm install --quiet
 COPY . .
 
 EXPOSE 3000
+EXPOSE 8080
