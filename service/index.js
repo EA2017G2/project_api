@@ -2,7 +2,7 @@
 
 var jwt = require('jwt-simple');
 var moment = require('moment');
-require('dotenv').config();
+var conf = require('../conf/conf');
 //const mongoose = require('mongoose')
 //mongoose.Promise = require('bluebird')
 
@@ -17,9 +17,7 @@ function createToken(user) {
         //notbefore..similar al iat
     };
 
-    var configSecretToken = process.env.SECRET_TOKEN;
-    var secretToken = (configSecretToken !== undefined ? configSecretToken : 'G2loveshottt');
-    return jwt.encode(payload, secretToken);
+    return jwt.encode(payload, conf.getSecretToken(), null, null);
 }
 
 //iat=>fechaCreacion Token
@@ -27,9 +25,7 @@ function createToken(user) {
 function decodeToken(token) {
     return new Promise(function (resolve, reject) {
         try {
-            var configSecretToken = process.env.SECRET_TOKEN;
-            var secretToken = (configSecretToken !== undefined ? configSecretToken : 'G2loveshottt');
-            var payload = jwt.decode(token, secretToken);
+            var payload = jwt.decode(token, conf.getSecretToken(), false, null);
 
             if (payload.exp <= moment().unix()) {
                 reject({
