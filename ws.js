@@ -14,7 +14,6 @@ var wss = new WebSocket.Server({
     port: conf.getWSPort(),
     verifyClient: function (info, cb) {
         var token = info.req.headers.token;
-        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YTUxNTJmNzkyZmZiZjI2NTAzZTI2YjkiLCJpYXQiOjE1MTUyNzkwOTYsImV4cCI6MTUxNTM2NTQ5NiwibmFtZSI6IjJhIiwiZW1haWwiOiJhM0BhLmNvbSJ9.qMpDg9e-2rby_kOQdS-GBQ1YsrBXyhRvUVh3lyTPgtw";
         if (!token)
             cb(false, 401, 'Unauthorized');
         else {
@@ -35,14 +34,23 @@ function heartbeat() {
 wss.on('connection', function connection(ws, req) {
     ws.isAlive = true;
     ws.on('pong', heartbeat);
+    ws.user = req.user;
 
     ws.on('message', function incoming(message) {
         var parts = message.split(':');
-        if(parts.length !== 3) {
+        if((parts.length !== 3) || (parts[0] !== req.user.name)) {
             ws.send('Format error');
         } else {
-            console.log('received: %s from %s', message, req.user.sub);
-            ws.send(req.user.sub);
+            console.log('received: %s from %s for %s', parts[1], parts[0], parts[2]);
+            var isConnected = false;
+            wss.clients.forEach(function each(client) {
+                if((client.user.name === parts[2]) && (client.readyState === WebSocket.OPEN)) {
+                    var answer = parts[0] + ':' + parts[1];
+                    isConnected = true;
+                    client.send(answer);
+                }
+            });
+            // Delivery if not connected??
         }
     });
 
