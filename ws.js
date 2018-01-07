@@ -2,7 +2,6 @@
 
 // Load environment variables defined at '.env' file
 var conf = require('./conf/conf');
-var jwt = require('jwt-simple');
 const WebSocket = require('ws');
 
 
