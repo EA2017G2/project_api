@@ -34,14 +34,14 @@ function signUp(req, res) {
         }
     });
 }
-// Crea mensajes
+/* Crea mensajes
 function newMessage(req,res){
     var contact = new Contact({
         toUserId: req.body._id,
         fromUserId: req.body._id,
         comment: req.body.comment
     });
-}
+}*/
 
 //funcion de autenticacion,una vez el user esta registrado
 function signIn(req, res) {

@@ -47,6 +47,8 @@ wss.on('connection', function connection(ws, req) {
                     var answer = parts[0] + ':' + parts[1];
                     isConnected = true;
                     client.send(answer);
+                  user.contacts.toUser.push(parts[2]);
+                  user.contacts.fromUser.push(parts[0]);
                 }
             });
             // Delivery if not connected??
