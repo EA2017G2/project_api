@@ -52,6 +52,7 @@ wss.on('connection', function connection(ws, req) {
                     client.send(answer);
                     //var toUser = part[2];
                     user.contacts.push(client);
+                    //Llamar a la funcion /controllers/chat.js/addMessage¿???
                 }
             });
             // Delivery if not connected??
