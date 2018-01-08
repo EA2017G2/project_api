@@ -11,19 +11,19 @@ var logger = require('./routes/utils/loggerfactory');
 // Start websocket server
 var wss = new WebSocket.Server({
     port: conf.getWSPort(),
-    verifyClient: function (info, cb) {
-        var token = info.req.headers.token;
-        if (!token)
-            cb(false, 401, 'Unauthorized');
-        else {
-            service.decodeToken(token).then(function (response) {
-                info.req.user = response;
-                cb(true)
-            }).catch(function (response) {
-                cb(false, response.status, response.message);
-            });
-        }
-    }
+    // verifyClient: function (info, cb) {
+    //     var token = info.req.headers.token;
+    //     if (!token)
+    //         cb(false, 401, 'Unauthorized');
+    //     else {
+    //         service.decodeToken(token).then(function (response) {
+    //             info.req.user = response;
+    //             cb(true)
+    //         }).catch(function (response) {
+    //             cb(false, response.status, response.message);
+    //         });
+    //     }
+    // }
 });
 
 function heartbeat() {
