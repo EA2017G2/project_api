@@ -73,8 +73,7 @@ function getProfile(req, res){
         else if (!user)
             return res.status(404).send({message: 'El usuario no existe'});
         else{
-          req.user = user;
-          res.status(200).send(user);
+          return res.status(200).send(user);
         }
     })
 }
