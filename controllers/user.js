@@ -78,6 +78,22 @@ function getProfile(req, res){
     })
 }
 
+function addPic(req, res){
+    console.log("hello");
+    var userId = req.user.sub;
+    var imageProfile = req.body;
+    User.update({ _id: userId }, {$set: {imageProfile: imageProfile}}, function(err,user) {
+        if(err){
+            console.log(err);
+            return res.status(500).send({message: err});}
+        else if (!user)
+            return res.status(404).send({message: 'El usuario no existe'});
+        else{
+            return res.status(200).send("OK, imageProfile changed");
+        }
+    })
+}
+
 function getUsers(req, res) {
     User.find({}, function (err, products) {
         if (err) return res.status(500).send({ message: 'Error al realizar la peticion: ' + err });else if (!products) return res.status(404).send({ message: 'No existen productos' });else {
@@ -154,6 +170,7 @@ function sendmail(mail, password) {
 module.exports.signUp = signUp;
 module.exports.signIn = signIn;
 module.exports.getProfile = getProfile;
+module.exports.addPic = addPic ;
 module.exports.getByType = getByType;
 module.exports.getUsers = getUsers;
 module.exports.forgetPassword = forgetPassword;
