@@ -77,7 +77,7 @@ function getProfile(req, res){
         }
     })
 }
-
+/*
 function addPic(req, res){
     console.log("hello");
     var userId = req.user.sub;
@@ -92,6 +92,25 @@ function addPic(req, res){
             return res.status(200).send("OK, imageProfile changed");
         }
     })
+}
+*/
+
+function filter(req, res){
+    console.log("hello");
+    var userId = req.user.sub;
+    var orientation = req.body.orientation;
+
+    User.update({ _id: userId }, {$set: {orientation: orientation}}, function(err,user) {
+        if(err){
+            console.log(err);
+            return res.status(500).send({message: err});}
+        else if (!user)
+            return res.status(404).send({message: 'El usuario no existe'});
+        else{
+            return res.status(200).send("OK, settings changed");
+        }
+    })
+    console.log(orientation);
 }
 
 function getUsers(req, res) {
@@ -170,7 +189,8 @@ function sendmail(mail, password) {
 module.exports.signUp = signUp;
 module.exports.signIn = signIn;
 module.exports.getProfile = getProfile;
-module.exports.addPic = addPic ;
+//module.exports.addPic = addPic ;
 module.exports.getByType = getByType;
 module.exports.getUsers = getUsers;
 module.exports.forgetPassword = forgetPassword;
+module.exports.filter = filter;
