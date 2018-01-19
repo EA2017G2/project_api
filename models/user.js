@@ -11,7 +11,7 @@ var UserSchema = new mongoose.Schema({
     salt: { type: String },
     sex: String,
     orientation: String,
-    city: String,
+    city: {type: String },
     locationCurrent: Number,
     connected: { type: Number, default: 0 },
     birthday: { type: Date , required: true},
