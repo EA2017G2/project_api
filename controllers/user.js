@@ -114,6 +114,60 @@ function filter(req, res){
     console.log(orientation);
 }
 
+function updateUsername(req, res){
+    console.log("hello");
+    var userId = req.user.sub;
+    var username = req.body.username;
+
+    User.update({ _id: userId }, {$set: {name: username}}, function(err,user) {
+        if(err){
+            console.log(err);
+            return res.status(500).send({message: err});}
+        else if (!user)
+            return res.status(404).send({message: 'El usuario no existe'});
+        else{
+            return res.status(200).send("OK, settings changed");
+        }
+    })
+    console.log(username);
+}
+
+function updateCity(req, res){
+    console.log("hello");
+    var userId = req.user.sub;
+    var city = req.body.city;
+
+    User.update({ _id: userId }, {$set: {city: city}}, function(err,user) {
+        if(err){
+            console.log(err);
+            return res.status(500).send({message: err});}
+        else if (!user)
+            return res.status(404).send({message: 'El usuario no existe'});
+        else{
+            return res.status(200).send("OK, settings changed");
+        }
+    })
+    console.log(city);
+}
+
+function updatePassword(req, res){
+    console.log("hello");
+    var userId = req.user.sub;
+    var password = req.body.password;
+
+    User.update({ _id: userId }, {$set: {password: password}}, function(err,user) {
+        if(err){
+            console.log(err);
+            return res.status(500).send({message: err});}
+        else if (!user)
+            return res.status(404).send({message: 'El usuario no existe'});
+        else{
+            return res.status(200).send("OK, settings changed");
+        }
+    })
+    console.log(password);
+}
+
 function settings(req, res){
     console.log("hello");
     var userId = req.user.sub;
@@ -131,7 +185,7 @@ function settings(req, res){
             return res.status(200).send("OK, settings changed");
         }
     });
-    
+
 }
 
 function getUsers(req, res) {
@@ -216,3 +270,6 @@ module.exports.getUsers = getUsers;
 module.exports.forgetPassword = forgetPassword;
 module.exports.filter = filter;
 module.exports.settings = settings;
+module.exports.updateUsername = updateUsername;
+module.exports.updateCity = updateCity;
+module.exports.updatePassword = updatePassword;
