@@ -16,7 +16,7 @@ router.put('/users/update/:userCity',auth.isAuth, userCtrl.updateCity);
 router.post('/users/forgetPassword', userCtrl.forgetPassword);
 
 router.get('/users', userCtrl.getUsers);
-router.get('/play', playCtrl.getRandom);
+router.get('/play', auth.isAuth, playCtrl.getRandom);
 router.get('/users/profile', auth.isAuth, userCtrl.getProfile);
 router.get('/users/getByType', userCtrl.getByType);
 router.get('/private', auth.isAuth, function (req, res) {
