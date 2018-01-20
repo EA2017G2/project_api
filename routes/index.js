@@ -5,6 +5,7 @@ var router = express.Router();
 const productCtrl = require('../controllers/user');
 const auth = require('../middlewares/auth');
 const userCtrl = require('../controllers/user');
+const playCtrl = require('../controllers/play');
 
 
 //api.get('/product', productCtrl.getProducts)
@@ -15,6 +16,7 @@ router.put('/users/update/:userCity',auth.isAuth, userCtrl.updateCity);
 router.post('/users/forgetPassword', userCtrl.forgetPassword);
 
 router.get('/users', userCtrl.getUsers);
+router.get('/play', playCtrl.getRandom);
 router.get('/users/profile', auth.isAuth, userCtrl.getProfile);
 router.get('/users/getByType', userCtrl.getByType);
 router.get('/private', auth.isAuth, function (req, res) {
