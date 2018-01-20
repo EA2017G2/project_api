@@ -73,6 +73,7 @@ function getProfile(req, res){
         else if (!user)
             return res.status(404).send({message: 'El usuario no existe'});
         else{
+            console.log(user);
           return res.status(200).send(user);
         }
     })
@@ -111,6 +112,26 @@ function filter(req, res){
         }
     })
     console.log(orientation);
+}
+
+function settings(req, res){
+    console.log("hello");
+    var userId = req.user.sub;
+    var username = req.body.username;
+    var city = req.body.city;
+    var pass1 = req.body.pass1;
+
+    User.update({ _id: userId }, {$set: {name: username, city: city}}, function(err,user) {
+        if(err){
+            console.log(err);
+            return res.status(500).send({message: err});}
+        else if (!user)
+            return res.status(404).send({message: 'El usuario no existe'});
+        else{
+            return res.status(200).send("OK, settings changed");
+        }
+    });
+    
 }
 
 function getUsers(req, res) {
@@ -194,3 +215,4 @@ module.exports.getByType = getByType;
 module.exports.getUsers = getUsers;
 module.exports.forgetPassword = forgetPassword;
 module.exports.filter = filter;
+module.exports.settings = settings;

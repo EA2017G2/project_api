@@ -46,7 +46,6 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 
 // Setup app routes
 app.use('/api', router.router);
-
 // Start the server
 var configPort = process.env.PORT;
 var port = (configPort !== undefined ? configPort : 3000);

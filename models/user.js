@@ -16,7 +16,7 @@ var UserSchema = new mongoose.Schema({
     connected: { type: Number, default: 0 },
     birthday: { type: Date , required: true},
     contacts: [{ type: mongoose.Schema.Types.Mixed, ref: 'Contacts' }],
-    imageProfile: { data:Buffer, contentType:String},
+    imageProfile: { data:String},
     signupDate: { type: Date, default: Date.now() },
     lastLogin: Date
 });
