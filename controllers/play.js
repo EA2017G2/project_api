@@ -9,13 +9,20 @@ var logger = require('../routes/utils/loggerfactory');
 
 
 function getRandom(req,res) {
-
+    var orientation="";
     var userName = req.user.name;
+
     var list = [];
     var  aleatorio= null;
 
+    var id= req.user.sub;
+    User.findById(id, function(err,user){
+        console.log(user);
+        orientation= user.orientation;
+    } );
+
     console.log(userName);
-    User.find({}, function (err, users) {
+    User.find({sex: orientation}, function (err, users) {
                 if (err) return res.status(500).send({message: 'Error al realizar la peticion: ' + err});
                 else if (!users) return res.status(404).send({message: 'No existen usuarios'});
                 else {
