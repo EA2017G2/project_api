@@ -65,7 +65,7 @@ function signIn(req, res) {
         }
     });
 }
-function updateUsername(req, res) {
+function updName(req, res) {
     var userId = req.user.sub;
     var update = req.body;
     console.log(req.body);
@@ -81,7 +81,7 @@ function updateUsername(req, res) {
         }
     })
 }
-function updateCity(req, res) {
+function updCity(req, res) {
     var userId = req.user.sub;
     var update = req.body;
     console.log('user',req.body);
@@ -164,7 +164,7 @@ function filter(req, res){
 }
 
 function updateUsername(req, res){
-    console.log("hello");
+    console.log(req);
     var userId = req.user.sub;
     var username = req.body.username;
 
@@ -312,8 +312,8 @@ function sendmail(mail, password) {
 
 module.exports.signUp = signUp;
 module.exports.signIn = signIn;
-module.exports.updateCity = updateCity;
-module.exports.updateUsername = updateUsername;
+module.exports.updCity = updCity;
+module.exports.updName = updName;
 module.exports.getProfile = getProfile;
 //module.exports.addPic = addPic ;
 module.exports.getByType = getByType;
