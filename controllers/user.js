@@ -34,6 +34,7 @@ function signUp(req, res) {
         }
     });
 }
+
 // Crea mensajes
 function newMessage(req,res){
     var contact = new Contact({
@@ -64,8 +65,56 @@ function signIn(req, res) {
         }
     });
 }
+function updateUsername(req, res) {
+    var userId = req.user.sub;
+    var update = req.body;
+    console.log(req.body);
 
-function getProfile(req, res){
+    User.findOneAndUpdate({_id: userId}, { $set: { name : req.params.userName}}, { new: true }, function (err, userUpdated) {
+        if (err)
+            return res.status(500).send({message: err});
+        else if (!userUpdated)
+            return res.status(404).send({message: 'No existe ese producto'});
+        else {
+            console.log(userUpdated);
+            return res.status(200).send({user:userUpdated});
+        }
+    })
+}
+function updateCity(req, res) {
+    var userId = req.user.sub;
+    var update = req.body;
+    console.log('user',req.body);
+
+    User.findOneAndUpdate({_id: userId}, { $set: { city : req.body.city}}, { new: true }, function (err, userUpdated) {
+        if (err)
+            return res.status(500).send({message: err});
+        else if (!userUpdated)
+            return res.status(404).send({message: 'No existe ese producto'});
+        else {
+            console.log('userUpdate:',userUpdated);
+            return res.status(200).send({user:userUpdated});
+        }
+    })
+}
+function updatePassword(req, res) {
+    var userId = req.user.sub;
+    var update = req.body;
+    console.log('user',req.body);
+
+    User.findOneAndUpdate({_id: userId}, { $set: { city : req.body.password}}, { new: true }, function (err, userUpdated) {
+        if (err)
+            return res.status(500).send({message: err});
+        else if (!userUpdated)
+            return res.status(404).send({message: 'No existe ese producto'});
+        else {
+            console.log('userUpdate:',userUpdated);
+            return res.status(200).send({user:userUpdated});
+        }
+    })
+}
+
+function getProfile(req, res){ 
     var userId = req.user.sub;
     User.find({ _id: userId }, function(err,user) {
         if(err)
@@ -263,6 +312,8 @@ function sendmail(mail, password) {
 
 module.exports.signUp = signUp;
 module.exports.signIn = signIn;
+module.exports.updateCity = updateCity;
+module.exports.updateUsername = updateUsername;
 module.exports.getProfile = getProfile;
 //module.exports.addPic = addPic ;
 module.exports.getByType = getByType;

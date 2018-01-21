@@ -10,6 +10,8 @@ const userCtrl = require('../controllers/user');
 //api.get('/product', productCtrl.getProducts)
 router.post('/users/signup', userCtrl.signUp);
 router.post('/users/signin', userCtrl.signIn);
+router.put('/users/update/:userName',auth.isAuth, userCtrl.updateUsername);
+router.put('/users/update/:userCity',auth.isAuth, userCtrl.updateCity);
 router.post('/users/forgetPassword', userCtrl.forgetPassword);
 //router.post('/users/addPic', auth.isAuth, userCtrl.addPic);
 router.post('/users/filter', auth.isAuth, userCtrl.filter);
