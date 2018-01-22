@@ -26,6 +26,6 @@ mongoose.connect(conf.getMongoUrl(), {
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error connecting to database:'));
-db.once('open', function() {
+db.once('open', function () {
     logger.log('info', "Connected to the database...", 'app.js', 'root');
 });

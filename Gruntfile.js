@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -36,7 +36,7 @@ module.exports = function(grunt) {
             options: {
                 node: true
             },
-            all: ['Gruntfile.js', 'app.js', 'middlewares/**/*.js', 'routes/**/*.js', 'controllers/**/*.js','models/**/*.js']
+            all: ['Gruntfile.js', 'app.js', 'middlewares/**/*.js', 'routes/**/*.js', 'controllers/**/*.js', 'models/**/*.js']
         },
         exec: {
             install_npm_main: 'npm install',

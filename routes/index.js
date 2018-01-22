@@ -16,7 +16,7 @@ router.get('/users', userCtrl.getUsers);
 router.get('/users/profile', auth.isAuth, userCtrl.getProfile);
 router.get('/users/getByType', userCtrl.getByType);
 router.get('/private', auth.isAuth, function (req, res) {
-    res.status(200).send({ message: 'tienes acceso' });
+    res.status(200).send({message: 'tienes acceso'});
 });
 
 module.exports.router = router;

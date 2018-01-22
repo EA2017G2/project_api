@@ -38,7 +38,7 @@ wss.on('connection', function connection(ws, req) {
 
     ws.on('message', function incoming(message) {
         var parts = message.split(':');
-        if((parts.length !== 3) || (parts[0] !== req.user.name)) {
+        if ((parts.length !== 3) || (parts[0] !== req.user.name)) {
             ws.send('Format error');
         } else {
             console.log('received: %s from %s for %s', parts[1], parts[0], parts[2]);
@@ -46,7 +46,7 @@ wss.on('connection', function connection(ws, req) {
             var fromUser = part[0];
             req.user.contacts.push(fromUser);
             wss.clients.forEach(function each(client) {
-                if((client.user.name === parts[2]) && (client.readyState === WebSocket.OPEN)) {
+                if ((client.user.name === parts[2]) && (client.readyState === WebSocket.OPEN)) {
                     var answer = parts[0] + ':' + parts[1];
                     isConnected = true;
                     client.send(answer);

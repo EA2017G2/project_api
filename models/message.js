@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
-var MessageSchema = new Schema({
+var MessageSchema = new mongoose.Schema({
         conversationId: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             required: true
         },
         body: {
@@ -11,7 +11,7 @@ var MessageSchema = new Schema({
             required: true
         },
         author: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }
     },

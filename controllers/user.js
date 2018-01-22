@@ -34,6 +34,7 @@ function signUp(req, res) {
         }
     });
 }
+
 /* Crea mensajes
 function newMessage(req,res){
     var contact = new Contact({
@@ -45,14 +46,14 @@ function newMessage(req,res){
 
 //funcion de autenticacion,una vez el user esta registrado
 function signIn(req, res) {
-    User.findOne({ email: req.body.email }, function (err, user) {
-        if (err) return res.status(500).send({ message: err });else if (!user) return res.status(404).send({ message: 'No existe el usuario' });else {
+    User.findOne({email: req.body.email}, function (err, user) {
+        if (err) return res.status(500).send({message: err}); else if (!user) return res.status(404).send({message: 'No existe el usuario'}); else {
             bcrypt.hash(req.body.password, user.salt, null, function (err, hash) {
                 if (err) {
-                    return res.status(503).send({ message: 'Internal Error' });
+                    return res.status(503).send({message: 'Internal Error'});
                 } else {
                     if (hash !== user.password) {
-                        return res.status(404).send({ message: 'Contraseña incorrecta' });
+                        return res.status(404).send({message: 'Contraseña incorrecta'});
                     } else {
                         res.status(200).send({
                             hash: User.valueOf(user.password), // TODO: Debe mandarse hash??
@@ -65,23 +66,23 @@ function signIn(req, res) {
     });
 }
 
-function getProfile(req, res){
+function getProfile(req, res) {
     var userId = req.user.sub;
-    User.find({ _id: userId }, function(err,user) {
-        if(err)
+    User.find({_id: userId}, function (err, user) {
+        if (err)
             return res.status(500).send({message: err});
         else if (!user)
             return res.status(404).send({message: 'El usuario no existe'});
-        else{
-          req.user = user;
-          res.status(200).send(user);
+        else {
+            req.user = user;
+            res.status(200).send(user);
         }
     })
 }
 
 function getUsers(req, res) {
     User.find({}, function (err, products) {
-        if (err) return res.status(500).send({ message: 'Error al realizar la peticion: ' + err });else if (!products) return res.status(404).send({ message: 'No existen productos' });else {
+        if (err) return res.status(500).send({message: 'Error al realizar la peticion: ' + err}); else if (!products) return res.status(404).send({message: 'No existen productos'}); else {
             for (var i = 0; i < products.length; i++) {
                 products[i].password = "";
                 products[i].salt = "";
@@ -92,23 +93,23 @@ function getUsers(req, res) {
 }
 
 function forgetPassword(req, res) {
-    User.findOne({ email: req.body.email }, function (err, user) {
-        if (err) return res.status(500).send({ message: err });else if (!user) return res.status(404).send({ message: 'No existe el usuario' });else {
-        //     bcrypt.hash(req.body.password, user.salt, null, function (err, hash) {
-        //          if (err) {
-        //           return res.status(503).send({ message: 'Internal Error' });
-        //         } else {
-                   sendmail(req.body.email,user.password);
-                        res.status(200).send({
-                            message: 'Consulte su correo electrónico.'
-           });
+    User.findOne({email: req.body.email}, function (err, user) {
+        if (err) return res.status(500).send({message: err}); else if (!user) return res.status(404).send({message: 'No existe el usuario'}); else {
+            //     bcrypt.hash(req.body.password, user.salt, null, function (err, hash) {
+            //          if (err) {
+            //           return res.status(503).send({ message: 'Internal Error' });
+            //         } else {
+            sendmail(req.body.email, user.password);
+            res.status(200).send({
+                message: 'Consulte su correo electrónico.'
+            });
         }
     });
 }
 
 function getByType(req, res) {
-    User.find({ sex: req.params.id}, function(err, user) {
-        if (err) return res.status(500).send({ message: err });else if (!user) return res.status(404).send({ message: 'No existe el usuario' });else {
+    User.find({sex: req.params.id}, function (err, user) {
+        if (err) return res.status(500).send({message: err}); else if (!user) return res.status(404).send({message: 'No existe el usuario'}); else {
             //     bcrypt.hash(req.body.password, user.salt, null, function (err, hash) {
             //          if (err) {
             //           return res.status(503).send({ message: 'Internal Error' });
@@ -123,25 +124,25 @@ function getByType(req, res) {
 
 function sendmail(mail, password) {
     logger.log("info", "test send mail function", "controller/user.js", "sendmail");
-    var server  = email.server.connect({
-        user:    "loveshotrecovery@outlook.es",
-        password:"loveShot_",
-        host:    "smtp-mail.outlook.com",
+    var server = email.server.connect({
+        user: "loveshotrecovery@outlook.es",
+        password: "loveShot_",
+        host: "smtp-mail.outlook.com",
         tls: {ciphers: "SSLv3"}
     });
 
     // send the message and get a callback with an error or details of the message that was sent
     var message = {
-        text:    "Hello, your password is: " + password,
-        from:    "me <loveshotrecovery@outlook.es>",
-        to:      "xavi <" + mail + ">",
+        text: "Hello, your password is: " + password,
+        from: "me <loveshotrecovery@outlook.es>",
+        to: "xavi <" + mail + ">",
         subject: "Welcome to my app",
         attachment:
             [
-                {data:"<html>Hello, your password is </html>" + password, alternative:true}
+                {data: "<html>Hello, your password is </html>" + password, alternative: true}
             ]
     };
-    server.send(message, function(err, message) {
+    server.send(message, function (err, message) {
         if (err !== null) {
             logger.log("error", err, "controller/user.js", "sendmail");
         } else {
@@ -149,7 +150,6 @@ function sendmail(mail, password) {
         }
     });
 }
-
 
 
 module.exports.signUp = signUp;
