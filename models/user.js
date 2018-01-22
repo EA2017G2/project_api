@@ -5,20 +5,20 @@ mongoose.Promise = require('bluebird');
 var bcrypt = require('bcrypt-nodejs'); //libreria para encriptarcontraseñ
 
 var UserSchema = new mongoose.Schema({
-    email: { type: String, unique: true, lowercase: true, required: true },
-    name: { type: String, required: true },
-    password: { type: String, required: true },
-    salt: { type: String },
+    email: {type: String, unique: true, lowercase: true, required: true},
+    name: {type: String, required: true},
+    password: {type: String, required: true},
+    salt: {type: String},
     sex: String,
     orientation: String,
     city: String,
     locationCurrent: Number,
-    connected: { type: Number, default: 0 },
-    birthday: { type: Date , required: true},
+    connected: {type: Number, default: 0},
+    birthday: {type: Date, required: true},
     contacts: [{type: String}],
-   // contacts: [{ type: mongoose.Schema.Types.Mixed, ref: 'Contacts' }],
-    imageProfile: { type: String },
-    signupDate: { type: Date, default: Date.now() },
+    // contacts: [{ type: mongoose.Schema.Types.Mixed, ref: 'Contacts' }],
+    imageProfile: {type: String},
+    signupDate: {type: Date, default: Date.now()},
     lastLogin: Date
 });
 
