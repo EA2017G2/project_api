@@ -1,7 +1,6 @@
 'use strict';
 
 var User = require('../models/user');
-var Contact = require('../models/contact');
 var service = require('../service');
 var bcrypt = require('bcrypt-nodejs'); //libreria para encriptarcontraseñ
 var email = require('emailjs/email');
@@ -34,15 +33,6 @@ function signUp(req, res) {
         }
     });
 }
-
-/* Crea mensajes
-function newMessage(req,res){
-    var contact = new Contact({
-        toUserId: req.body._id,
-        fromUserId: req.body._id,
-        comment: req.body.comment
-    });
-}*/
 
 //funcion de autenticacion,una vez el user esta registrado
 function signIn(req, res) {

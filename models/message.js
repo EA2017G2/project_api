@@ -4,13 +4,16 @@ mongoose.Promise = require('bluebird');
 var MessageSchema = new mongoose.Schema({
         conversationId: {
             type: mongoose.Schema.Types.ObjectId,
-            required: true
+        },
+        author: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
         },
         body: {
             type: String,
             required: true
         },
-        author: {
+        receiver: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }

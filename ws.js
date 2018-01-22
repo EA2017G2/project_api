@@ -5,25 +5,26 @@ var conf = require('./conf/conf');
 const WebSocket = require('ws');
 
 
+var ChatController = require('./controllers/chat');
 var service = require('./service/index');
 var logger = require('./routes/utils/loggerfactory');
 
 // Start websocket server
 var wss = new WebSocket.Server({
     port: conf.getWSPort(),
-    verifyClient: function (info, cb) {
-        var token = info.req.headers.token;
-        if (!token)
-            cb(false, 401, 'Unauthorized');
-        else {
-            service.decodeToken(token).then(function (response) {
-                info.req.user = response;
-                cb(true)
-            }).catch(function (response) {
-                cb(false, response.status, response.message);
-            });
-        }
-    }
+    // verifyClient: function (info, cb) {
+    //     var token = info.req.headers.token;
+    //     if (!token)
+    //         cb(false, 401, 'Unauthorized');
+    //     else {
+    //         service.decodeToken(token).then(function (response) {
+    //             info.req.user = response;
+    //             cb(true)
+    //         }).catch(function (response) {
+    //             cb(false, response.status, response.message);
+    //         });
+    //     }
+    // }
 });
 
 function heartbeat() {
@@ -42,23 +43,18 @@ wss.on('connection', function connection(ws, req) {
             ws.send('Format error');
         } else {
             console.log('received: %s from %s for %s', parts[1], parts[0], parts[2]);
-            var isConnected = false;
-            var fromUser = part[0];
-            req.user.contacts.push(fromUser);
+            var callback = function () {
+
+            };
+            ChatController.addMessage(part[0], parts[1], parts[2], callback);
             wss.clients.forEach(function each(client) {
                 if ((client.user.name === parts[2]) && (client.readyState === WebSocket.OPEN)) {
                     var answer = parts[0] + ':' + parts[1];
-                    isConnected = true;
                     client.send(answer);
-                    //var toUser = part[2];
-                    user.contacts.push(client);
-                    //Llamar a la funcion /controllers/chat.js/addMessage¿???
                 }
             });
-            // Delivery if not connected??
         }
     });
-
     ws.send('Connected!!!');
 });
 
