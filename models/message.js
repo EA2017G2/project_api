@@ -3,7 +3,7 @@ mongoose.Promise = require('bluebird');
 
 var MessageSchema = new mongoose.Schema({
         conversationId: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId
         },
         author: {
             type: mongoose.Schema.Types.ObjectId,

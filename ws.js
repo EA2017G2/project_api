@@ -34,28 +34,32 @@ function heartbeat() {
 wss.on('connection', function connection(ws, req) {
     ws.isAlive = true;
     ws.on('pong', heartbeat);
-    ws.user = req.user;
-
+    var firstMessage = true;
 
     ws.on('message', function incoming(message) {
-        var parts = message.split(':');
-        if ((parts.length !== 3) || (parts[0] !== req.user.name)) {
+        var parts = JSON.parse(message);
+        if ((parts === null) || (parts.from === null) || parts.to === null) {
             ws.send('Format error');
         } else {
-            console.log('received: %s from %s for %s', parts[1], parts[0], parts[2]);
-            var callback = function () {
-
-            };
-            ChatController.addMessage(part[0], parts[1], parts[2], callback);
-            wss.clients.forEach(function each(client) {
-                if ((client.user.name === parts[2]) && (client.readyState === WebSocket.OPEN)) {
-                    var answer = parts[0] + ':' + parts[1];
-                    client.send(answer);
+            if(firstMessage === true){
+                ws.user = parts.author;
+                firstMessage = false;
+            }
+            console.log('received: %s from %s for %s', parts.message, parts.author, parts.receiver);
+            ChatController.addMessage(parts.author, parts.message, parts.receiver, function (err) {
+                if(err !== null) {
+                    logger.log('error', 'message can not be added to db', 'ws.js', 'root')
                 }
+                wss.clients.forEach(function each(client) {
+                    if ((client.user === parts.receiver) && (client.readyState === WebSocket.OPEN)) {
+                        client.send(message);
+                    }
+                });
             });
         }
     });
-    ws.send('Connected!!!');
+
+    ws.send(JSON.stringify({msgType: "0", from: "", message: "Connected!!!", to: ""}));
 });
 
 const interval = setInterval(function ping() {
